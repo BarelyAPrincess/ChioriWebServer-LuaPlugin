@@ -1,0 +1,16 @@
+*.class
+
+# Package Files #
+*.war
+*.ear
+/bin/
+/*/bin/
+.classpath
+.project
+.settings
+/lib/META-INF
+/nbproject/private/
+/build/
+/*/build/
+/manifest.mf
+/.metadata

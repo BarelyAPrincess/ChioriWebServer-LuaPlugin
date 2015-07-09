@@ -1,0 +1,5 @@
+name: Lua Plugin
+author: Chiori Greene
+main: com.chiorichan.plugin.lua.Main
+version: '1.0'
+depends: []

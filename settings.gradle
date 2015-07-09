@@ -1,0 +1,2 @@
+include 'ChioriWebServer'
+project(':ChioriWebServer').projectDir = new File(settingsDir, '../ChioriWebServer')
