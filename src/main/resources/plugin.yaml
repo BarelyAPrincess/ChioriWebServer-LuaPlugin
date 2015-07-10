@@ -3,3 +3,8 @@ author: Chiori Greene
 main: com.chiorichan.plugin.lua.Main
 version: '1.0'
 depends: []
+natives:
+  linux-x86_64:
+  - libjnlua52.so
+libraries:
+- com.nebula2d:jnlua:1.0.4

@@ -1,3 +1,6 @@
+import org.yaml.snakeyaml.Yaml
+import org.ajoberstar.grgit.Grgit
+
 defaultTasks 'clean', 'build'
 
 apply plugin: 'eclipse'
@@ -32,12 +35,11 @@ buildscript
 	}
 }
 
-import org.yaml.snakeyaml.Yaml
 def getVersionNumber()
 {
 	try
 	{
-		File configFile = new File('./src/main/resources/plugin.yaml')
+		File configFile = file('src/main/resources/plugin.yaml')
 		Yaml yaml = new Yaml()
 		def config = yaml.load(configFile.newReader())
 		
@@ -78,7 +80,7 @@ def travis_build = System.getenv("TRAVIS_BUILD_NUMBER")
 def buildNumber = '0'
 
 group = 'com.chiorichan.plugin'
-description = 'Implements the Lua as a web programming language for Chiori-chan\'s Web Server'
+description = 'Implements Lua as a web programming language for Chiori-chan\'s Web Server'
 
 if ( System.getenv("releaseBuild") != null )
 {
@@ -142,19 +144,16 @@ license
 }
 
 dependencies {
-	// Used for Programming Convinience
+	compile group: 'com.nebula2d', name: 'jnlua', version: '1.0.4'
+	
 	compile group: 'com.google.guava', name: 'guava', version: '18.0'
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
-	
-	// Clones and compiles against the ChioriWebServer repository source code
-	// compile files('../ChioriWebServer/src/main/groovy')
 	
 	compile project(path: ':ChioriWebServer')
 }
 
-import org.ajoberstar.grgit.Grgit
 task downloadGitDependency() {
-	//def grgit = Grgit.clone(dir: '../ChioriWebServer', uri: 'git@github.com:ChioriGreene/ChioriWebServer.git')
+	// def grgit = Grgit.clone(dir: '../ChioriWebServer', uri: 'git@github.com:ChioriGreene/ChioriWebServer.git')
 }
 
 build.dependsOn downloadGitDependency
