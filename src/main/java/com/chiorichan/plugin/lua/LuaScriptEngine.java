@@ -8,21 +8,26 @@
  */
 package com.chiorichan.plugin.lua;
 
-import java.io.StringWriter;
+import io.netty.buffer.ByteBuf;
 
-import com.chiorichan.factory.EvalExecutionContext;
-import com.chiorichan.factory.ShellFactory;
-import com.chiorichan.factory.processors.ScriptingProcessor;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
+
+import com.chiorichan.factory.ScriptBinding;
+import com.chiorichan.factory.ScriptingContext;
+import com.chiorichan.factory.ScriptingEngine;
 import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
 
 /**
  * Handles the processing of Lua Scripts
  */
-public class LuaScriptProcessor implements ScriptingProcessor
+public class LuaScriptEngine implements ScriptingEngine
 {
 	@Override
-	public boolean eval( EvalExecutionContext context, ShellFactory shell ) throws Exception
+	public boolean eval( ScriptingContext context ) throws Exception
 	{
 		LuaStateFactory factory = new LuaStateFactory();
 		factory.createState();
@@ -57,7 +62,9 @@ public class LuaScriptProcessor implements ScriptingProcessor
 		} );
 		lua.setGlobal( "println" );
 		
-		lua.load( context.readString(), "script-test" );
+		String prescript = "Server = java.require(\"com.chiorichan.factory.api.Server\")";
+		
+		lua.load( prescript + "\n" + context.readString(), "script-test" );
 		
 		lua.call( 0, 1 );
 		
@@ -78,8 +85,20 @@ public class LuaScriptProcessor implements ScriptingProcessor
 	}
 	
 	@Override
-	public String[] getHandledTypes()
+	public List<String> getTypes()
 	{
-		return new String[] {"lua"};
+		return Arrays.asList( "lua" );
+	}
+	
+	@Override
+	public void setBinding( ScriptBinding binding )
+	{
+		// Do Nothing - For Now!
+	}
+	
+	@Override
+	public void setOutput( ByteBuf buffer, Charset charset )
+	{
+		// Do Nothing - For Now!
 	}
 }
